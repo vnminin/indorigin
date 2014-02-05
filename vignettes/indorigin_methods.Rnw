@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[11pt]{article}
 
 \setlength{\oddsidemargin}{0.25in}
 \setlength{\textwidth}{6in}
@@ -30,100 +30,32 @@
 \newcommand{\cexpect}[4]{\ensuremath{\text{E}\left#3 #1 \,|\,#2\right#4}}  
 \newcommand{\expect}[3]{\ensuremath{\text{E}\left#2 #1 \right#3}}
 
-\newcommand{\fder}[1]{\frac{d}{d #1}}
-\newcommand{\hder}[2]{\frac{d^{#2}}{d {#1}^{#2}}}
-\newcommand{\fpart}[1]{\frac{\partial}{\partial #1}}
-\newcommand{\hpart}[2]{\frac{\partial^{#2}}{\partial {#1}^{#2}}}
 
-\newcommand{\compdata}{\ensuremath{\mathbf{x}}}
-\newcommand{\obsdata}{\ensuremath{\mathbf{y}}}
-\newcommand{\hiddata}{\ensuremath{\mathbf{h}}}
-\newcommand{\compdatascalar}{\ensuremath{x}}
-\newcommand{\hiddatascalar}{\ensuremath{h}}
-\newcommand{\obsdatascalar}{\ensuremath{y}}
-\newcommand{\truesampl}{\ensuremath{p_T}}
-\newcommand{\falsesampl}{\ensuremath{p_F}}
-\newcommand{\falsesamplcomp}[1]{\ensuremath{p_{F#1}}}
-\newcommand{\truepar}{\ensuremath{\boldsymbol{\theta}_T}}
-\newcommand{\trueparest}{\ensuremath{\hat{\boldsymbol{\theta}}_T}}
-\newcommand{\falsepar}{\ensuremath{\boldsymbol{\theta}_F}}
-\newcommand{\subpar}{\ensuremath{\boldsymbol{\theta}_0}}
-\newcommand{\falseparscalar}[1]{\ensuremath{\theta_{F#1}}}
-\newcommand{\falseparest}{\ensuremath{\hat{\boldsymbol{\theta}}_F}}
-\newcommand{\falseparcomp}[1]{\ensuremath{\theta_{F#1}}}
-\newcommand{\falseparestcomp}[1]{\ensuremath{\hat{\theta}_{F#1}}}
-\newcommand{\trueparspace}{\ensuremath{\boldsymbol{\Theta}_T}}
-\newcommand{\falseparspace}{\ensuremath{\boldsymbol{\Theta}_F}}
-\newcommand{\subparspace}{\ensuremath{\boldsymbol{\Theta}_0}}
-\newcommand{\compsum}{\ensuremath{\mathbf{s}}}
-\newcommand{\compsumscalar}{\ensuremath{s}}
-\newcommand{\summean}{\ensuremath{\boldsymbol{\mu}}}
-\newcommand{\summeanscalar}{\ensuremath{\mu}}
-\newcommand{\markovchain}[1]{\ensuremath{X_{#1}}}
-\newcommand{\statespace}{\ensuremath{\mathcal{S}}}
-\newcommand{\infgencomp}{\ensuremath{\lambda}}
-\newcommand{\infgen}{\ensuremath{\boldsymbol{\Lambda}}}
-\newcommand{\statdistcomp}{\ensuremath{\pi}}
-\newcommand{\statdist}{\ensuremath{\boldsymbol{\statdistcomp}}}
-\newcommand{\transprob}{\ensuremath{\mathbf{P}}}
-\newcommand{\transprobscalar}{\ensuremath{p}}
-\newcommand{\labelset}{\ensuremath{\mathcal{L}}}
-\newcommand{\empdist}{\ensuremath{F_n}}
-\newcommand{\suffstat}{\ensuremath{\mathbf{t}}}
-\newcommand{\suffstatscalar}{\ensuremath{t}}
-\newcommand{\mixpropscalar}{\ensuremath{\alpha}}
-\newcommand{\mixprop}{\ensuremath{\boldsymbol{\alpha}}}
+
 \newcommand{\indfun}[1]{\ensuremath{1_{\{#1\}}}}
-\newcommand{\bias}{\ensuremath{\text{bias}}}
-\newcommand{\asarrow}{\ensuremath{\overset{\text{a.s.}}{\rightarrow}}}
-\newcommand{\asequal}{\ensuremath{\overset{\text{a.s.}}{=}}}
-
-\newcommand{\E}{\mathop{\rm{E}\mathstrut}\nolimits} 
-
-\newcommand{\smdel}[1]{\sout{#1}}
-\newcommand{\smadd}[1]{\textbf{#1}}
-
-%%\newcommand{\conv}{conventional\ }
-%%\newcommand{\robust}{robust\ }
-%%\newcommand{\Conv}{Conventional\ }
-%%\newcommand{\Robust}{Robust\ }
-
-\newcommand{\conv}{plug-in\ }
-\newcommand{\robust}{imputation\ }
-\newcommand{\Conv}{Plug-in\ }
-\newcommand{\Robust}{Imputation\ }
-
-\newtheorem{theorem}{Theorem}
-\newtheorem{corollary}{Corollary}
-
-\newenvironment{Proof}{\begin{trivlist}
-\item[\hskip \labelsep \textit{Proof}:]}{\end{trivlist}}
-
-\newenvironment{example}[1]{\begin{trivlist}
-\item[\hskip \labelsep {\bfseries Example}: #1]\ \\}{\end{trivlist}}
 
 
-\newcommand{\todo}[1]{\begin{center}To do: {\bf #1}\end{center}}
 
 \bibliographystyle{plainnat}
 
-%%\title{Some theoretical properties of robust genetic distance estimation}
-%%\title{Semi-parametric robust estimation in missing data and empirical Bayes problems}
-%%\title{Missing data expectations under model misspecification with applications to 
-%%molecular evolution}
-%%\title{Empirically corrected estimation of complete-data population summaries under model misspecification}
+
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Bayes factor test for independent/separate origins hypotheses}
 
 \begin{document}
 %%\maketitle
 
+
+
 \begin{center}
-  {\LARGE Testing independent origin hypotheses using Bayes factors}\\\ \\
-  {Sabrina Pankey, Todd H. Oakley, and co-authors  
-  }
+{\LARGE Supplementary Methods. Testing phylogenetic independent origin hypotheses using Bayes factors}\\\ \\
 \end{center}
 
 \begin{abstract}
-blah
+To assess support for the hypothesis that photophores originated more than once, we developed a Bayes Factor test in which we compare the posterior 
+probabilities of the observed data under two opposing hypotheses (that the number of gains required is either less than or greater/equal to $m$).  To approximate these 
+posterior probabilities we developed a computational method which uses MCMC to account for phylogenetic uncertainty and uncertainty in rates of gain and loss. 
+Here we describe the model assumptions and computational details, which have been implemented in the R package \verb8indorigin8 available at \url{https://github.com/vnminin/indorigin}.
 \end{abstract}
 
 
@@ -175,7 +107,7 @@ The approximate posterior (\ref{gain-loss-posterior}) has only two parameters an
 techniques, such as Gaussian quadrature. We implement a MCMC algorithm that targets posterior 
 (\ref{gain-loss-posterior}), but plan to experiment with deterministic integration in the future.
 \par
-So far our modeling assumptions and approximations follow standard practices in statistical phylogenetics as applied to macroevolution. For example, one could use software packages BayesTraits \citep{Pagel2004} or Mr.Bayes \citep{Ronquist2012}, among many others, to approximate the posterior distributions (\ref{joint-posterior}) or (\ref{gain-loss-posterior}). The main novelly of our methodology, explained in the next section, comes from the way we use these posteriors to devise a principled method for testing hypotheses about
+So far our modeling assumptions and approximations follow standard practices in statistical phylogenetics as applied to macroevolution. For example, one could use software packages BayesTraits \citep{Pagel2004} or Mr.Bayes \citep{Ronquist2012}, among many others, to approximate the posterior distributions (\ref{joint-posterior}) or (\ref{gain-loss-posterior}). The main novelty of our methodology, explained in the next section, comes from the way we use these posteriors to devise a principled method for testing hypotheses about
 the number of gains and losses of the trait of interest.
 
 \section*{Hypotheses and their Bayes factors}
@@ -258,7 +190,16 @@ Computing $\text{Pr}(N_{01} = m \mid \mathbf{y}, \lambda_{01}, \lambda_{10}, \ta
 by combining analytic results of \citet{Minin2008} and a dynamic programming algorithm of \citet{Siepel2006}. 
 We further extend the analytic results of \citet{Minin2008} with [GREG: INSERT A PHRASE HERE] to improve
 numerical stability of our calculations. We compute the prior probability of at most $M$ jumps using an approximation analogous to formula (\ref{prob_approx}), with the exception of averaging over independent draws rom priors of $\lambda_{01}$ and $\lambda_{01}$, and over uniform draws of candidate phylogenies 
-$\tau_1, \dots, \tau_K$. Software implementing the above procedure is available in the form of an open-source R package \verb8indorigin8 (\url{https://r-forge.r-project.org/R/?group_id=1088}).
+$\tau_1, \dots, \tau_K$. 
+
+\section{Implementation and illustrations}
+
+Software implementing the above procedure is available in the form of an open-source R package \verb8indorigin8 (\url{https://github.com/vnminin/indorigin}). To install the package install the \verb8devtools8 package and then
+install \verb8indorigin8 using `install_github' command:
+
+<<intallation>>=
+install.packages()
+@
 
 
 
