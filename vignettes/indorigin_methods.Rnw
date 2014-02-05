@@ -1,0 +1,276 @@
+\documentclass[12pt]{article}
+
+\setlength{\oddsidemargin}{0.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{0.5in}
+\setlength{\textheight}{9in}
+\renewcommand{\baselinestretch}{1.0} 
+
+\setlength{\tabcolsep}{4pt}
+
+\usepackage{fullpage}
+\usepackage{subfigure}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage[intlimits]{amsmath}
+\usepackage{amsthm}
+\usepackage{natbib}
+\usepackage{amsfonts}
+\usepackage{url}
+\usepackage{ulem}
+%\usepackage{nopageno}
+
+%\newcommand{\draftnote}[1]{\marginpar{\tiny\raggedright\textsf{\hspace{0pt}{\bf Comments}:#1}}}
+%\newcommand{\draftnote}[1]{}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\newcommand{\cprob}[2]{\ensuremath{\text{Pr}\left(#1 \,|\,#2\right)}}  
+\newcommand{\prob}[1]{\ensuremath{\text{Pr}\left(#1 \right)}}
+\newcommand{\cexpect}[4]{\ensuremath{\text{E}\left#3 #1 \,|\,#2\right#4}}  
+\newcommand{\expect}[3]{\ensuremath{\text{E}\left#2 #1 \right#3}}
+
+\newcommand{\fder}[1]{\frac{d}{d #1}}
+\newcommand{\hder}[2]{\frac{d^{#2}}{d {#1}^{#2}}}
+\newcommand{\fpart}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\hpart}[2]{\frac{\partial^{#2}}{\partial {#1}^{#2}}}
+
+\newcommand{\compdata}{\ensuremath{\mathbf{x}}}
+\newcommand{\obsdata}{\ensuremath{\mathbf{y}}}
+\newcommand{\hiddata}{\ensuremath{\mathbf{h}}}
+\newcommand{\compdatascalar}{\ensuremath{x}}
+\newcommand{\hiddatascalar}{\ensuremath{h}}
+\newcommand{\obsdatascalar}{\ensuremath{y}}
+\newcommand{\truesampl}{\ensuremath{p_T}}
+\newcommand{\falsesampl}{\ensuremath{p_F}}
+\newcommand{\falsesamplcomp}[1]{\ensuremath{p_{F#1}}}
+\newcommand{\truepar}{\ensuremath{\boldsymbol{\theta}_T}}
+\newcommand{\trueparest}{\ensuremath{\hat{\boldsymbol{\theta}}_T}}
+\newcommand{\falsepar}{\ensuremath{\boldsymbol{\theta}_F}}
+\newcommand{\subpar}{\ensuremath{\boldsymbol{\theta}_0}}
+\newcommand{\falseparscalar}[1]{\ensuremath{\theta_{F#1}}}
+\newcommand{\falseparest}{\ensuremath{\hat{\boldsymbol{\theta}}_F}}
+\newcommand{\falseparcomp}[1]{\ensuremath{\theta_{F#1}}}
+\newcommand{\falseparestcomp}[1]{\ensuremath{\hat{\theta}_{F#1}}}
+\newcommand{\trueparspace}{\ensuremath{\boldsymbol{\Theta}_T}}
+\newcommand{\falseparspace}{\ensuremath{\boldsymbol{\Theta}_F}}
+\newcommand{\subparspace}{\ensuremath{\boldsymbol{\Theta}_0}}
+\newcommand{\compsum}{\ensuremath{\mathbf{s}}}
+\newcommand{\compsumscalar}{\ensuremath{s}}
+\newcommand{\summean}{\ensuremath{\boldsymbol{\mu}}}
+\newcommand{\summeanscalar}{\ensuremath{\mu}}
+\newcommand{\markovchain}[1]{\ensuremath{X_{#1}}}
+\newcommand{\statespace}{\ensuremath{\mathcal{S}}}
+\newcommand{\infgencomp}{\ensuremath{\lambda}}
+\newcommand{\infgen}{\ensuremath{\boldsymbol{\Lambda}}}
+\newcommand{\statdistcomp}{\ensuremath{\pi}}
+\newcommand{\statdist}{\ensuremath{\boldsymbol{\statdistcomp}}}
+\newcommand{\transprob}{\ensuremath{\mathbf{P}}}
+\newcommand{\transprobscalar}{\ensuremath{p}}
+\newcommand{\labelset}{\ensuremath{\mathcal{L}}}
+\newcommand{\empdist}{\ensuremath{F_n}}
+\newcommand{\suffstat}{\ensuremath{\mathbf{t}}}
+\newcommand{\suffstatscalar}{\ensuremath{t}}
+\newcommand{\mixpropscalar}{\ensuremath{\alpha}}
+\newcommand{\mixprop}{\ensuremath{\boldsymbol{\alpha}}}
+\newcommand{\indfun}[1]{\ensuremath{1_{\{#1\}}}}
+\newcommand{\bias}{\ensuremath{\text{bias}}}
+\newcommand{\asarrow}{\ensuremath{\overset{\text{a.s.}}{\rightarrow}}}
+\newcommand{\asequal}{\ensuremath{\overset{\text{a.s.}}{=}}}
+
+\newcommand{\E}{\mathop{\rm{E}\mathstrut}\nolimits} 
+
+\newcommand{\smdel}[1]{\sout{#1}}
+\newcommand{\smadd}[1]{\textbf{#1}}
+
+%%\newcommand{\conv}{conventional\ }
+%%\newcommand{\robust}{robust\ }
+%%\newcommand{\Conv}{Conventional\ }
+%%\newcommand{\Robust}{Robust\ }
+
+\newcommand{\conv}{plug-in\ }
+\newcommand{\robust}{imputation\ }
+\newcommand{\Conv}{Plug-in\ }
+\newcommand{\Robust}{Imputation\ }
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+
+\newenvironment{Proof}{\begin{trivlist}
+\item[\hskip \labelsep \textit{Proof}:]}{\end{trivlist}}
+
+\newenvironment{example}[1]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries Example}: #1]\ \\}{\end{trivlist}}
+
+
+\newcommand{\todo}[1]{\begin{center}To do: {\bf #1}\end{center}}
+
+\bibliographystyle{plainnat}
+
+%%\title{Some theoretical properties of robust genetic distance estimation}
+%%\title{Semi-parametric robust estimation in missing data and empirical Bayes problems}
+%%\title{Missing data expectations under model misspecification with applications to 
+%%molecular evolution}
+%%\title{Empirically corrected estimation of complete-data population summaries under model misspecification}
+
+\begin{document}
+%%\maketitle
+
+\begin{center}
+  {\LARGE Testing independent origin hypotheses using Bayes factors}\\\ \\
+  {Sabrina Pankey, Todd H. Oakley, and co-authors  
+  }
+\end{center}
+
+\begin{abstract}
+blah
+\end{abstract}
+
+
+\section*{Modeling assumptions}
+We start with a binary character (e.g.\ absence/presence of a morphological trait) measured in $n$ species. We collect these measurements into 
+vector $\mathbf{y} = (y_1, \dots, y_n)$, where each $y_i \in \{0,1\}$. Suppose that the evolutionary relationship among the above species can be described by 
+a phylogeny $\tau$, which includes branch lengths. We assume that the binary character had evolved along this phylogeny according to a two-state  
+continuous-time  Markov chain (CTMC) with an infinitesimal rate matrix 
+\[
+\boldsymbol{\Lambda} =
+\left(
+\begin{array}{rr}
+  -\lambda_{01} & \lambda_{01} \\
+  \lambda_{10} & -\lambda_{10}
+\end{array} 
+\right).
+\]  
+We also assume that we have another set of data $\mathbf{x}$, molecular and/or morphological, collected from the same species. In principle, we can set up an 
+evolutionary model for this second data set, with evolutionary model parameters $\boldsymbol{\theta}$ (e.g.\ substitution matrix, rate heterogeneity parameters) and then
+approximate the posterior distribution of all model parameters conditional on all available data:
+\begin{equation}
+\text{Pr}(\tau, \boldsymbol{\theta}, \lambda_{01}, \lambda_{10} \mid \mathbf{x}, \mathbf{y}) \propto 
+\text{Pr}(\mathbf{x} \mid \tau, \boldsymbol{\theta}) \text{Pr}(\mathbf{y} \mid \tau,  \lambda_{01}, \lambda_{10})
+\text{Pr}(\tau) \text{Pr}(\boldsymbol{\theta}) \text{Pr}( \lambda_{01})  \text{Pr}( \lambda_{10}),
+\label{joint-posterior}
+\end{equation}
+where we assume that \textit{a priori} $\lambda_{01} \sim \text{Gamma}(\alpha_{01}, \beta_{01})$ and 
+$\lambda_{10} \sim \text{Gamma}(\alpha_{10}, \beta_{10})$, with the rest of the priors left unspecified for generality. 
+However, in practice the contribution of the data vector $\mathbf{y}$ to phylogenetic estimation is negligible when compared to the contribution of the data matrix
+$\mathbf{x}$. Therefore, we take a two-stage approach, where we first approximate the posterior distribution 
+\[
+\text{Pr}(\tau, \boldsymbol{\theta} \mid \mathbf{x}) \propto 
+\text{Pr}(\mathbf{x} \mid \tau, \boldsymbol{\theta}) 
+\text{Pr}(\tau) \text{Pr}(\boldsymbol{\theta})  \text{Pr}( \lambda_{01})  \text{Pr}( \lambda_{10})
+\]
+via Markov chain Monte Carlo (MCMC). This produces the posterior sample of $K$ phylogenies, $\boldsymbol{\tau} = (\tau_1,\dots,\tau_K)$. Next, we form
+an \textit{approximate} posterior distribution 
+\begin{equation}
+\begin{split}
+\widetilde{\text{Pr}}(\lambda_{01}, \lambda_{10} \mid \mathbf{x}, \mathbf{y}) &=
+\int_{\tau} \text{Pr}(\lambda_{01}, \lambda_{10} \mid \tau, \mathbf{y}) \text{Pr}(\tau \mid \mathbf{x}) \text{d}\tau \\
+&\propto  \int_{\tau}  \text{Pr}(\mathbf{y} \mid \tau,  \lambda_{01}, \lambda_{10})  \text{Pr}( \lambda_{01})  \text{Pr}( \lambda_{10}) \text{Pr}(\tau \mid \mathbf{x}) \text{d}\tau\\
+&\approx  \left[\sum_{k=1}^K  \text{Pr}(\mathbf{y} \mid \tau_k,  \lambda_{01}, \lambda_{10})\right]  \text{Pr}( \lambda_{01})  \text{Pr}( \lambda_{10}).
+\end{split}
+\label{gain-loss-posterior}
+\end{equation}
+that helps us estimate the rates of gain and loss of the trait, $\lambda_{01}$ and $\lambda_{10}$, appropriately accounting for phylogenetic uncertainty. 
+The approximate posterior (\ref{gain-loss-posterior}) has only two parameters and therefore can be approximated by multiple numerical procedures, including deterministic integration 
+techniques, such as Gaussian quadrature. We implement a MCMC algorithm that targets posterior 
+(\ref{gain-loss-posterior}), but plan to experiment with deterministic integration in the future.
+\par
+So far our modeling assumptions and approximations follow standard practices in statistical phylogenetics as applied to macroevolution. For example, one could use software packages BayesTraits \citep{Pagel2004} or Mr.Bayes \citep{Ronquist2012}, among many others, to approximate the posterior distributions (\ref{joint-posterior}) or (\ref{gain-loss-posterior}). The main novelly of our methodology, explained in the next section, comes from the way we use these posteriors to devise a principled method for testing hypotheses about
+the number of gains and losses of the trait of interest.
+
+\section*{Hypotheses and their Bayes factors}
+%We know turn to the question of testing hypotheses about how many times the trait was gained during 
+%the course of evolution. 
+Let $N_{01}$ be the number of gains and let $N_{10}$ be the number of losses. Conservatively,
+in this work we assume that the root of the phylogenetic tree relating the species under study is in state $1$.
+This means that the parsimony score for the number of gains associated with vector $\mathbf{y}$ and
+\textit{any} phylogeny is $0$, because under our assumption about the root any binary vector can be generated
+with only trait losses, even though such an evolutionary trajectory may be very unlikely.
+\par 
+We fix a nonnegative threshold $m$ and formulate an \textit{independent origin hypothesis} associated 
+with this threshold as
+\[
+\text{H}_0: N_{01} \le m,
+\]
+with the corresponding alternative 
+\[
+\text{H}_a: N_{01} > m.
+\]
+This means that our null hypothesis is that the trait was gained at most $k+1$ times --- we add one because we 
+know that the trait was gained at least once. For example, using $k=0$ 
+corresponds to testing the null hypothesis that the trait was gained only once some time prior to the time
+of the most recent common ancestor of the species under study. We use a Bayes factor test \citep{Kass1995}
+to compare the above two hypotheses:
+\begin{equation}
+\text{BF}_M = \frac{\text{Pr}(\mathbf{y} \mid N_{01} \le M)}
+{\text{Pr}(\mathbf{y} \mid N_{01} > M)} 
+= \frac{\text{Pr}(N_{01} \le M \mid \mathbf{y})/\text{Pr}(N_{01} \le M)}
+{\text{Pr}(N_{01} > M \mid \mathbf{y})/\text{Pr}(N_{01} > M)},
+\label{bf}
+\end{equation}
+where $\text{Pr}(N_{01} \le M \mid \mathbf{y})$ and $\text{Pr}(N_{01} > M \mid \mathbf{y})$ are the 
+posterior probabilities of the null and alternative hypotheses, and $\text{Pr}(N_{01} \le M)$ 
+and $\text{Pr}(N_{01} > M)$ are the corresponding prior probabilities. We explain how we compute these
+probabilities in the next section.
+
+%The chief advantage of the Bayes factor test lies in its ability to integrate over nuisance parameters: 
+%$\lambda_0$, $\lambda_1$. Ignoring substantial uncertainty in estimation of these parameters results in 
+%over-confidence.
+
+\section*{Computational details}
+We approximate the posterior (\ref{gain-loss-posterior}) by a MCMC algorithm that starts with arbitrary 
+initial values $\lambda_{01}^{(0)}$, $\lambda_{01}^{(0)}$ and at each iteration $l \ge 1$ repeats the following
+steps:
+\begin{enumerate}
+\item Sample uniformly at random a tree index $k$ from the set $\{1,\dots,K\}$ and set the current tree 
+$\tau^{(l)} = \tau_k$.
+\item Conditional on the phylogeny and the gain and loss rates from the previous iteration, 
+draw a realization of the full evolutionary trajectory (also known as stochastic mapping \citep{Nielsen2002}) 
+on phylogeny $\tau^{(l)}$ using the uniformization method \citep{Lartillot2006} and record the following
+missing data summaries: $N_{01}^{(l)}$,  $N_{10}^{(l)}$, defined as before, and $t_0^{(l)}$, $t_1^{(l)}$ --  total times the trait spent in state 0 and 1 respectively.
+\item Draw new values of gain and loss rates from their full conditionals: 
+\begin{align*}
+\lambda_{01}^{(l)} &\sim \text{Gamma}(N_{01}^{(l)} + \alpha_{01}, t_0^{(l)} + \beta_{01})\\
+\lambda_{10}^{(l)} &\sim \text{Gamma}(N_{10}^{(l)} + \alpha_{10}, t_1^{(l)} + \beta_{10}).
+\end{align*}
+\end{enumerate}
+Advantages of using the above Gibbs sampling algorithm are: a) no tuning is required and b) augmenting the state space with latent variables, $N_{01}$,  $N_{10}$, $t_0$, $t_1$, and sampling these latent variables efficiently yield rapid convergence of the MCMC, in our experience.
+\par
+The last important computational issue is computing prior and posterior probabilities needed to compute the
+Bayes factor (\ref{bf}). Consider computing the posterior probability  $\text{Pr}(N_{01} \le M \mid \mathbf{y})$ 
+-- a surprisingly nontrivial task, as it turns out. For example, the most straightforward approximation of this probability from our MCMC output is 
+\begin{equation*}
+\text{Pr}\left(N_{01} \le M \mid \mathbf{y}\right) \approx \frac{1}{L}\sum_{l=1}^L \indfun{N_{01}^{(l)} \le M},
+\end{equation*}
+where $\indfun{}$ is an indicator function. This approximation has substantial Monte Carlo error, a result
+of the large variance of $N_{01}$, which makes using this approximation infeasible for Bayes factor calculations, 
+especially when $\text{Pr}(N_{01} \le m \mid \mathbf{y})$ is close to 0 or to 1. Alternatively, a better approximation can be formed as follows: 
+\begin{equation}
+\text{Pr}(N_{01} \le M \mid \mathbf{y}) \approx \frac{1}{L}\sum_{l=1}^L \text{Pr}(N_{01}^{(l)} \le M \mid \mathbf{y}, \lambda_{01}^{(l)}, \lambda_{10}^{(l)}, \tau^{(l)}),
+\label{prob_approx}
+\end{equation}
+where $\text{Pr}(N_{01} \le M \mid \mathbf{y}, \lambda_{01}, \lambda_{10}, \tau)$ is 
+the posterior probability of at most $M$ jumps on a fixed tree $\tau$, assuming known gain and loss rates,
+$\lambda_{01}$ and $\lambda_{10}$. To compute the last posterior probability, we first  compute $\text{Pr}(N_{01} = m \mid \mathbf{y}, \lambda_{01}, \lambda_{10}, \tau)$ for $m=0,\dots,M$ and 
+then sum these probabilities to obtain the desired quantity. 
+\par
+Computing $\text{Pr}(N_{01} = m \mid \mathbf{y}, \lambda_{01}, \lambda_{10}, \tau)$ can be accomplished
+by combining analytic results of \citet{Minin2008} and a dynamic programming algorithm of \citet{Siepel2006}. 
+We further extend the analytic results of \citet{Minin2008} with [GREG: INSERT A PHRASE HERE] to improve
+numerical stability of our calculations. We compute the prior probability of at most $M$ jumps using an approximation analogous to formula (\ref{prob_approx}), with the exception of averaging over independent draws rom priors of $\lambda_{01}$ and $\lambda_{01}$, and over uniform draws of candidate phylogenies 
+$\tau_1, \dots, \tau_K$. Software implementing the above procedure is available in the form of an open-source R package \verb8indorigin8 (\url{https://r-forge.r-project.org/R/?group_id=1088}).
+
+
+
+\bibliography{ind_origin}
+
+\end{document}
+
+
+
+
+
+
+
+
+
