@@ -4,6 +4,8 @@ testIndOrigin = function(inputTrees, rootDist=c(0,1), traitData, initLambda01, i
   ## Prepare trees and trait data  for Rcpp code
   cat("pre-processing trees and trait data", "\n")
   
+  if (prod(traitData == 0 | traitData == 1) != 1)
+    stop("Error: \"traitData\" must be a binary vector with entries equal to 0 or 1")
   if (!("multiPhylo" %in% class(inputTrees)))
     stop("Error: object \"inputTrees\" is not of class \"multiPhylo\"")
   
@@ -44,6 +46,9 @@ did not match: the former were ignored in the analysis.')
     }        
   }
   
+  print(dim(treeBranchLengths))
+  print(dim(treeTraits))
+        
   ## Run Gibbs sampler that iterates between drawing from the full conditional of missing data
   ## and drawing from the full conditional of model parameters (rates 0->1 and 1->0)
   

@@ -347,22 +347,17 @@ NumericVector twoStatePhyloGibbsSampler(IntegerVector treeEdges, IntegerVector c
 
     //sample a tree from the list uniformly at random
     int treeInd = sampleOnce(unifWeights, as<double>(runif(1)));
-        
+    
     // sample CTMC sufficient statists
     suffStat = twoStateSufficientStatistics(cubeTreeEdges.slice(treeInd), vecTipStates[treeInd], 
-                                           vecBranchLengths[treeInd], lambda_01, lambda_10, rootDist);
-    //Rcout<<"Tip states: ";
-    //for( int i=0; i<vecTipStates[treeInd].size(); i++){
-    //  Rcout<<vecTipStates[treeInd](i)<<" ";
-    //}
-    //Rcout<<arma::endl;
-    //Rcout<<"l01="<<lambda_01<<" l10="<<lambda_10;                                       
-    //Rcout<<"n01="<<suffStat(0)<<" n10="<<suffStat(1)<<" t0="<<suffStat(2)<<" t1="<<suffStat(3)<<arma::endl;                                       
+                                           vecBranchLengths[treeInd], lambda_01, lambda_10, rootDist);                                     
+                                           
     // sample CTMC rates
     lambda_01 = ::Rf_rgamma(prior_alpha_01+suffStat(0), 1/(prior_beta_01+suffStat(2)));
     lambda_10 = ::Rf_rgamma(prior_alpha_10+suffStat(1), 1/(prior_beta_10+suffStat(3)));
 
     if (i > mcmcBurnin-1){
+  
   
       stepCount++;
       

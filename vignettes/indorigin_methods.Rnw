@@ -195,13 +195,87 @@ $\tau_1, \dots, \tau_K$.
 \section{Implementation and illustrations}
 
 Software implementing the above procedure is available in the form of an open-source R package \verb8indorigin8 (\url{https://github.com/vnminin/indorigin}). To install the package install the \verb8devtools8 package and then
-install \verb8indorigin8 using `install_github' command:
+install \verb8indorigin8 using `install\_github' command:
 
 <<intallation>>=
-install.packages()
+## install.packages("devtools") # uncomment if "devtoos" is not installed
+## install_github("vnminin/indorigin") # uncomment or copy and paste into R terminal
+library(indorigin)
+@
+Notice that installing from github requires installing the package from source. To learn about package installation see \url{http://cran.r-project.org/doc/manuals/R-admin.html}.
+\par
+Let's simulate a tree and fast/slow evolving binary traits on this tree. 
+
+<<simulation>>=
+library(diversitree) # diversitree is only needed for simulations
+set.seed(3245)
+
+## Simulate a tree 
+phy<-NULL
+while(is.null(phy)){
+  phy <- tree.bd(c(.1, .03), max.taxa=50)
+}
+
+## Simulate FAST EVOLVING 0/1 characters on this tree
+states1 <- sim.character(phy, c(.03, .1), x0=1, model="mk2")
+
+## Simulate SLOW EVOLVING 0/1 characters on this tree
+states2 <- sim.character(phy, c(.001, .01), x0=1, model="mk2")
+@
+
+\begin{figure}
+\centering
+<<simplot,fig.width=7, fig.height=4.5,out.width='1.0\\textwidth'>>=
+## plot the tree with the simulated histories at all nodes
+par(mfrow=c(1,2))
+plot(phy, show.tip.label=FALSE, no.margin=TRUE)
+col <- c("#004165", "#eaab00")
+tiplabels(col=col[states1+1], pch=19, adj=1)
+nodelabels(col=col[attr(states1, "node.state")+1], pch=19)
+
+plot(phy, show.tip.label=FALSE, no.margin=TRUE)
+col <- c("#004165", "#eaab00")
+tiplabels(col=col[states2+1], pch=19, adj=1)
+nodelabels(col=col[attr(states2, "node.state")+1], pch=19)
+@
+\caption{Fast (left figure) and slow (right figure) evolving binary traits with true internal node states plotted.} 
+\label{simtraits}
+\end{figure}
+
+First, we analyze the data simulated under the fast evolving model.
+<<fasttraitanalysis, tidy=FALSE>>=
+## run the independet origin analysis on the simulated data
+# Notice that the first argument must be a list of trees even if you are supplying
+## one tree. Hence, c(phy) command
+testIndOriginResults1 = testIndOrigin(inputTrees=c(phy), traitData=states1, 
+initLambda01=.01, initLambda10=.01, priorAlpha01=1, priorBeta01=10, 
+priorAlpha10=1, priorBeta10=10, mcmcSize=2100, mcmcBurnin=100, mcmcSubsample=1, 
+mcSize=10000)
+
+getBF(testIndOriginResults1)
+@
+The Bayes factor strongly rejects the hypothesis that there were 0 gains of the trait. 
+When we perform a similar analysis for the slow evolving trait, the
+Bayes factor supports the hypothesis of 0 gains, but 
+the support is very weak. This is expected, 
+because data generated under the slow evolving model
+have very little information about the gain/loss rates, 
+so there is a lot of uncertainty about these rates. 
+
+
+<<slowtraitanalysis, tidy=FALSE>>=
+testIndOriginResults2 = testIndOrigin(inputTrees=c(phy), traitData=states2, 
+initLambda01=.01, initLambda10=0.1, priorAlpha01=1, priorBeta01=10, 
+priorAlpha10=1, priorBeta10=10, mcmcSize=2100, mcmcBurnin=100, mcmcSubsample=1, 
+mcSize=10000)
+
+getBF(testIndOriginResults2)
 @
 
 
+Also note that we kept the number of MCMC iterations low, so it is possible to reproduce
+all of the above examples quickly. You should increase this number when attempting your
+own analyses.
 
 \bibliography{ind_origin}
 
