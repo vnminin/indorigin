@@ -45,9 +45,6 @@ did not match: the former were ignored in the analysis.')
       }
     }        
   }
-  
-  print(dim(treeBranchLengths))
-  print(dim(treeTraits))
         
   ## Run Gibbs sampler that iterates between drawing from the full conditional of missing data
   ## and drawing from the full conditional of model parameters (rates 0->1 and 1->0)

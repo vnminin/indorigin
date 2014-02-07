@@ -194,6 +194,8 @@ $\tau_1, \dots, \tau_K$.
 
 \section{Implementation and illustrations}
 
+
+
 Software implementing the above procedure is available in the form of an open-source R package \verb8indorigin8 (\url{https://github.com/vnminin/indorigin}). To install the package install the \verb8devtools8 package and then
 install \verb8indorigin8 using `install\_github' command:
 
@@ -203,7 +205,8 @@ install \verb8indorigin8 using `install\_github' command:
 library(indorigin)
 @
 Notice that installing from github requires installing the package from source. To learn about package installation see \url{http://cran.r-project.org/doc/manuals/R-admin.html}.
-\par
+
+\subsection{Simulated data}
 Let's simulate a tree and fast/slow evolving binary traits on this tree. 
 
 <<simulation>>=
@@ -272,9 +275,34 @@ mcSize=10000)
 getBF(testIndOriginResults2)
 @
 
+\subsection{Photophores data}
+First, we are going to load 1000 phylogenies of 70 cephalopod species and a corresponding vector of trait values (presence/absence of photophores). 
 
-Also note that we kept the number of MCMC iterations low, so it is possible to reproduce
-all of the above examples quickly. You should increase this number when attempting your
+<<loadingdata>>=
+library(ape)
+
+cephalopodTrees = read.tree("BLsonboots70.phy")
+tree.num = length(cephalopodTrees)
+
+cephalopodTraits = read.csv("BLspecies70.csv", header=FALSE)
+
+# a little massaging to get trait data into a vector format
+tip.num = dim(cephalopodTraits)[1]
+cephalopodTraitVec = numeric(tip.num)
+tipNames = as.character(cephalopodTraits[,1])
+cephalopodTraitVec = cephalopodTraits[,2]
+names(cephalopodTraitVec) = tipNames
+
+# run the analysis
+cephalopodIndOriginResults = testIndOrigin(inputTrees=cephalopodTrees, traitData=cephalopodTraitVec, initLambda01=.01, initLambda10=0.1, priorAlpha01=1, priorBeta01=100, priorAlpha10=1, priorBeta10=10, mcmcSize=1100, mcmcBurnin=100, mcmcSubsample=1, mcSize=1000, testThreshold=2)
+
+# get the Bayes factor
+getBF(cephalopodIndOriginResults)
+@
+
+
+
+Also note that we kept the number of MCMC iterations low, so it is possible to reproduce all of the above examples quickly. You should increase this number when attempting your
 own analyses.
 
 \bibliography{ind_origin}
