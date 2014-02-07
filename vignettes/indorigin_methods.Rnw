@@ -1,14 +1,14 @@
 \documentclass[11pt]{article}
 
-\setlength{\oddsidemargin}{0.25in}
-\setlength{\textwidth}{6in}
-\setlength{\topmargin}{0.5in}
-\setlength{\textheight}{9in}
+\setlength{\oddsidemargin}{0.15in}
+\setlength{\textwidth}{6.2in}
+\setlength{\topmargin}{-0.8in}
+\setlength{\textheight}{9.0in}
 \renewcommand{\baselinestretch}{1.0} 
 
 \setlength{\tabcolsep}{4pt}
 
-\usepackage{fullpage}
+%\usepackage{fullpage}
 \usepackage{subfigure}
 \usepackage{latexsym}
 \usepackage{graphicx}
@@ -52,9 +52,9 @@
 \end{center}
 
 \begin{abstract}
-To assess support for the hypothesis that photophores originated more than once, we developed a Bayes Factor test in which we compare the posterior 
-probabilities of the observed data under two opposing hypotheses (that the number of gains required is either less than or greater/equal to $m$).  To approximate these 
-posterior probabilities we developed a computational method which uses MCMC to account for phylogenetic uncertainty and uncertainty in rates of gain and loss. 
+To assess support for the hypothesis that photophores originated more than once, we developed a Bayes factor test in which we compare the prior and posterior 
+probabilities of the observed data under two opposing hypotheses (that the number of gains required is either less than or greater/equal to $M$).  To approximate these 
+prior and posterior probabilities we developed a computational method which uses MCMC to account for phylogenetic uncertainty and uncertainty in rates of gain and loss. 
 Here we describe the model assumptions and computational details, which have been implemented in the R package \verb8indorigin8 available at \url{https://github.com/vnminin/indorigin}.
 \end{abstract}
 
@@ -91,7 +91,7 @@ $\mathbf{x}$. Therefore, we take a two-stage approach, where we first approximat
 \text{Pr}(\mathbf{x} \mid \tau, \boldsymbol{\theta}) 
 \text{Pr}(\tau) \text{Pr}(\boldsymbol{\theta})  \text{Pr}( \lambda_{01})  \text{Pr}( \lambda_{10})
 \]
-via Markov chain Monte Carlo (MCMC). This produces the posterior sample of $K$ phylogenies, $\boldsymbol{\tau} = (\tau_1,\dots,\tau_K)$. Next, we form
+via Markov chain Monte Carlo (MCMC). This produces the posterior sample of $K$ phylogenies, $\boldsymbol{\tau} = (\tau_1,\dots,\tau_K)$. This sample can also be generated via a bootstrap procedure within the maximum likelihood analysis. Next, we form
 an \textit{approximate} posterior distribution 
 \begin{equation}
 \begin{split}
@@ -159,30 +159,30 @@ $\tau^{(l)} = \tau_k$.
 \item Conditional on the phylogeny and the gain and loss rates from the previous iteration, 
 draw a realization of the full evolutionary trajectory (also known as stochastic mapping \citep{Nielsen2002}) 
 on phylogeny $\tau^{(l)}$ using the uniformization method \citep{Lartillot2006} and record the following
-missing data summaries: $N_{01}^{(l)}$,  $N_{10}^{(l)}$, defined as before, and $t_0^{(l)}$, $t_1^{(l)}$ --  total times the trait spent in state 0 and 1 respectively.
+missing data summaries: $N_{01}^{(l)}$,  $N_{10}^{(l)}$, defined as before, and $t_0^{(l)}$, $t_1^{(l)}$ ---  total times the trait spent in state 0 and 1 respectively.
 \item Draw new values of gain and loss rates from their full conditionals: 
 \begin{align*}
-\lambda_{01}^{(l)} &\sim \text{Gamma}(N_{01}^{(l)} + \alpha_{01}, t_0^{(l)} + \beta_{01})\\
+\lambda_{01}^{(l)} &\sim \text{Gamma}(N_{01}^{(l)} + \alpha_{01}, t_0^{(l)} + \beta_{01}),\\
 \lambda_{10}^{(l)} &\sim \text{Gamma}(N_{10}^{(l)} + \alpha_{10}, t_1^{(l)} + \beta_{10}).
 \end{align*}
 \end{enumerate}
 Advantages of using the above Gibbs sampling algorithm are: a) no tuning is required and b) augmenting the state space with latent variables, $N_{01}$,  $N_{10}$, $t_0$, $t_1$, and sampling these latent variables efficiently yield rapid convergence of the MCMC, in our experience.
 \par
 The last important computational issue is computing prior and posterior probabilities needed to compute the
-Bayes factor (\ref{bf}). Consider computing the posterior probability  $\text{Pr}(N_{01} \le M \mid \mathbf{y})$ 
--- a surprisingly nontrivial task, as it turns out. For example, the most straightforward approximation of this probability from our MCMC output is 
+Bayes factor (\ref{bf}). Consider computing the posterior probability  $\text{Pr}(N_{01} \le m \mid \mathbf{y})$ 
+--- a surprisingly nontrivial task, as it turns out. For example, the most straightforward approximation of this probability from our MCMC output is 
 \begin{equation*}
 \text{Pr}\left(N_{01} \le M \mid \mathbf{y}\right) \approx \frac{1}{L}\sum_{l=1}^L \indfun{N_{01}^{(l)} \le M},
 \end{equation*}
 where $\indfun{}$ is an indicator function. This approximation has substantial Monte Carlo error, a result
 of the large variance of $N_{01}$, which makes using this approximation infeasible for Bayes factor calculations, 
-especially when $\text{Pr}(N_{01} \le m \mid \mathbf{y})$ is close to 0 or to 1. Alternatively, a better approximation can be formed as follows: 
+especially when $\text{Pr}(N_{01} \le M \mid \mathbf{y})$ is close to 0 or to 1. Alternatively, a better approximation can be formed as follows: 
 \begin{equation}
 \text{Pr}(N_{01} \le M \mid \mathbf{y}) \approx \frac{1}{L}\sum_{l=1}^L \text{Pr}(N_{01}^{(l)} \le M \mid \mathbf{y}, \lambda_{01}^{(l)}, \lambda_{10}^{(l)}, \tau^{(l)}),
 \label{prob_approx}
 \end{equation}
 where $\text{Pr}(N_{01} \le M \mid \mathbf{y}, \lambda_{01}, \lambda_{10}, \tau)$ is 
-the posterior probability of at most $M$ jumps on a fixed tree $\tau$, assuming known gain and loss rates,
+the posterior probability of at most $m$ jumps on a fixed tree $\tau$, assuming known gain and loss rates,
 $\lambda_{01}$ and $\lambda_{10}$. To compute the last posterior probability, we first  compute $\text{Pr}(N_{01} = m \mid \mathbf{y}, \lambda_{01}, \lambda_{10}, \tau)$ for $m=0,\dots,M$ and 
 then sum these probabilities to obtain the desired quantity. 
 \par
@@ -190,12 +190,9 @@ Computing $\text{Pr}(N_{01} = m \mid \mathbf{y}, \lambda_{01}, \lambda_{10}, \ta
 by combining analytic results of \citet{Minin2008} and a dynamic programming algorithm of \citet{Siepel2006}. 
 We further extend the analytic results of \citet{Minin2008} with an alternate representation of the two-state
 model solution to improve the numerical stability of our calculations.
-We compute the prior probability of at most $M$ jumps using an approximation analogous to formula (\ref{prob_approx}), with the exception of averaging over independent draws rom priors of $\lambda_{01}$ and $\lambda_{01}$, and over uniform draws of candidate phylogenies $\tau_1, \dots, \tau_K$. 
+We compute the prior probability of at most $M$ jumps using an approximation analogous to formula (\ref{prob_approx}), with the exception of averaging over independent draws from priors of $\lambda_{01}$ and $\lambda_{01}$, and over uniform draws of candidate phylogenies $\tau_1, \dots, \tau_K$. 
 
-\section{Implementation and illustrations}
-
-
-
+\section*{Implementation and illustrations}
 Software implementing the above procedure is available in the form of an open-source R package \verb8indorigin8 (\url{https://github.com/vnminin/indorigin}). To install the package install the \verb8devtools8 package and then
 install \verb8indorigin8 using `install\_github' command:
 
@@ -206,7 +203,7 @@ library(indorigin)
 @
 Notice that installing from github requires installing the package from source. To learn about package installation see \url{http://cran.r-project.org/doc/manuals/R-admin.html}.
 
-\subsection{Simulated data}
+\subsection*{Simulated data}
 Let's simulate a tree and fast/slow evolving binary traits on this tree. 
 
 <<simulation>>=
@@ -245,19 +242,18 @@ nodelabels(col=col[attr(states2, "node.state")+1], pch=19)
 \label{simtraits}
 \end{figure}
 
-First, we analyze the data simulated under the fast evolving model.
+First, we analyze the data simulated under the fast evolving trait regime. In this case, the Bayes factor strongly rejects the hypothesis that there were 0 gains of the trait. 
 <<fasttraitanalysis, tidy=FALSE>>=
-## run the independet origin analysis on the simulated data
-# Notice that the first argument must be a list of trees even if you are supplying
-## one tree. Hence, c(phy) command
+## run the independet origin analysis on the simulated data. 
+## Notice that the first argument must be a list of trees even if you are 
+## supplying one tree. Hence, c(phy) command.
 testIndOriginResults1 = testIndOrigin(inputTrees=c(phy), traitData=states1, 
 initLambda01=.01, initLambda10=.01, priorAlpha01=1, priorBeta01=10, 
-priorAlpha10=1, priorBeta10=10, mcmcSize=2100, mcmcBurnin=100, mcmcSubsample=1, 
-mcSize=10000)
+priorAlpha10=1, priorBeta10=10, mcmcSize=2100, mcmcBurnin=100, 
+mcmcSubsample=1, mcSize=10000)
 
 getBF(testIndOriginResults1)
 @
-The Bayes factor strongly rejects the hypothesis that there were 0 gains of the trait. 
 When we perform a similar analysis for the slow evolving trait, the
 Bayes factor supports the hypothesis of 0 gains, but 
 the support is very weak. This is expected, 
@@ -269,21 +265,20 @@ so there is a lot of uncertainty about these rates.
 <<slowtraitanalysis, tidy=FALSE>>=
 testIndOriginResults2 = testIndOrigin(inputTrees=c(phy), traitData=states2, 
 initLambda01=.01, initLambda10=0.1, priorAlpha01=1, priorBeta01=10, 
-priorAlpha10=1, priorBeta10=10, mcmcSize=2100, mcmcBurnin=100, mcmcSubsample=1, 
-mcSize=10000)
+priorAlpha10=1, priorBeta10=10, mcmcSize=2100, mcmcBurnin=100, 
+mcmcSubsample=1, mcSize=10000)
 
 getBF(testIndOriginResults2)
 @
 
-\subsection{Photophores data}
+\subsection*{Photophores data}
 First, we are going to load 1000 phylogenies of 70 cephalopod species and a corresponding vector of trait values (presence/absence of photophores). 
 
-<<loadingdata>>=
+<<photophoredata, tidy=FALSE>>=
 library(ape)
 
 cephalopodTrees = read.tree("BLsonboots70.phy")
 tree.num = length(cephalopodTrees)
-
 cephalopodTraits = read.csv("BLspecies70.csv", header=FALSE)
 
 # a little massaging to get trait data into a vector format
@@ -294,15 +289,17 @@ cephalopodTraitVec = cephalopodTraits[,2]
 names(cephalopodTraitVec) = tipNames
 
 # run the analysis
-cephalopodIndOriginResults = testIndOrigin(inputTrees=cephalopodTrees, traitData=cephalopodTraitVec, initLambda01=.01, initLambda10=0.1, priorAlpha01=1, priorBeta01=100, priorAlpha10=1, priorBeta10=10, mcmcSize=1100, mcmcBurnin=100, mcmcSubsample=1, mcSize=1000, testThreshold=2)
+cephalopodIndOriginResults = testIndOrigin(inputTrees=cephalopodTrees, 
+traitData=cephalopodTraitVec,initLambda01=.01, initLambda10=0.1, 
+priorAlpha01=1, priorBeta01=100, priorAlpha10=1, priorBeta10=10, 
+mcmcSize=1100, mcmcBurnin=100, mcmcSubsample=1, mcSize=1000, testThreshold=2)
 
 # get the Bayes factor
 getBF(cephalopodIndOriginResults)
 @
-
-
-
-Also note that we kept the number of MCMC iterations low, so it is possible to reproduce all of the above examples quickly. You should increase this number when attempting your
+The above results reproduce the Bayes factors in the $7^{\text{th}}$ row of the SI Table 2. To reproduce the rest of the rows, one can change `priorBeta01', `priorBeta10', and `testThreshold'
+parameters to manipulate the priors and the hypotheses.
+Note that we kept the number of MCMC iterations low, so it is possible to reproduce all of the above examples quickly. You should increase this number when attempting your
 own analyses.
 
 \bibliography{ind_origin}
