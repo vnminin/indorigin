@@ -188,9 +188,9 @@ then sum these probabilities to obtain the desired quantity.
 \par
 Computing $\text{Pr}(N_{01} = m \mid \mathbf{y}, \lambda_{01}, \lambda_{10}, \tau)$ can be accomplished
 by combining analytic results of \citet{Minin2008} and a dynamic programming algorithm of \citet{Siepel2006}. 
-We further extend the analytic results of \citet{Minin2008} with [GREG: INSERT A PHRASE HERE] to improve
-numerical stability of our calculations. We compute the prior probability of at most $M$ jumps using an approximation analogous to formula (\ref{prob_approx}), with the exception of averaging over independent draws rom priors of $\lambda_{01}$ and $\lambda_{01}$, and over uniform draws of candidate phylogenies 
-$\tau_1, \dots, \tau_K$. 
+We further extend the analytic results of \citet{Minin2008} with an alternate representation of the two-state
+model solution to improve the numerical stability of our calculations.
+We compute the prior probability of at most $M$ jumps using an approximation analogous to formula (\ref{prob_approx}), with the exception of averaging over independent draws rom priors of $\lambda_{01}$ and $\lambda_{01}$, and over uniform draws of candidate phylogenies $\tau_1, \dots, \tau_K$. 
 
 \section{Implementation and illustrations}
 
