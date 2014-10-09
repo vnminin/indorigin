@@ -89,7 +89,7 @@ $\mathbf{x}$. Therefore, we take a two-stage approach, where we first approximat
 \[
 \text{Pr}(\tau, \boldsymbol{\theta} \mid \mathbf{x}) \propto 
 \text{Pr}(\mathbf{x} \mid \tau, \boldsymbol{\theta}) 
-\text{Pr}(\tau) \text{Pr}(\boldsymbol{\theta})  \text{Pr}( \lambda_{01})  \text{Pr}( \lambda_{10})
+\text{Pr}(\tau) \text{Pr}(\boldsymbol{\theta})
 \]
 via Markov chain Monte Carlo (MCMC). This produces the posterior sample of $K$ phylogenies, $\boldsymbol{\tau} = (\tau_1,\dots,\tau_K)$. This sample can also be generated via a bootstrap procedure within the maximum likelihood analysis. Next, we form
 an \textit{approximate} posterior distribution 
@@ -122,14 +122,14 @@ with only trait losses, even though such an evolutionary trajectory may be very 
 We fix a nonnegative threshold $m$ and formulate an \textit{independent origin hypothesis} associated 
 with this threshold as
 \[
-\text{H}_0: N_{01} \le m,
+\text{H}_0: N_{01} \le M,
 \]
 with the corresponding alternative 
 \[
-\text{H}_a: N_{01} > m.
+\text{H}_a: N_{01} > M.
 \]
-This means that our null hypothesis is that the trait was gained at most $k+1$ times --- we add one because we 
-know that the trait was gained at least once. For example, using $k=0$ 
+This means that our null hypothesis is that the trait was gained at most $M+1$ times --- we add one because we 
+know that the trait was gained at least once. For example, using $M=0$ 
 corresponds to testing the null hypothesis that the trait was gained only once some time prior to the time
 of the most recent common ancestor of the species under study. We use a Bayes factor test \citep{Kass1995}
 to compare the above two hypotheses:
@@ -169,7 +169,7 @@ missing data summaries: $N_{01}^{(l)}$,  $N_{10}^{(l)}$, defined as before, and 
 Advantages of using the above Gibbs sampling algorithm are: a) no tuning is required and b) augmenting the state space with latent variables, $N_{01}$,  $N_{10}$, $t_0$, $t_1$, and sampling these latent variables efficiently yield rapid convergence of the MCMC, in our experience.
 \par
 The last important computational issue is computing prior and posterior probabilities needed to compute the
-Bayes factor (\ref{bf}). Consider computing the posterior probability  $\text{Pr}(N_{01} \le m \mid \mathbf{y})$ 
+Bayes factor (\ref{bf}). Consider computing the posterior probability  $\text{Pr}(N_{01} \le M \mid \mathbf{y})$ 
 --- a surprisingly nontrivial task, as it turns out. For example, the most straightforward approximation of this probability from our MCMC output is 
 \begin{equation*}
 \text{Pr}\left(N_{01} \le M \mid \mathbf{y}\right) \approx \frac{1}{L}\sum_{l=1}^L \indfun{N_{01}^{(l)} \le M},

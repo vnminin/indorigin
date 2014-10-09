@@ -4,7 +4,7 @@
  *  Created on: Nov 8, 2013
  *      Author: gimholte
  */
-
+ 
 #include "tree_sum.h"
 
 /* initialize the node jump distributions depending whether we
