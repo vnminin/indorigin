@@ -48,7 +48,7 @@
 
 
 \begin{center}
-{\LARGE Supplementary Methods. Testing phylogenetic independent origin hypotheses using Bayes factors}\\\ \\
+{\LARGE Supplementary Methods to \citep{Pankey2014}. Testing phylogenetic independent origin hypotheses using Bayes factors}\\\ \\
 \end{center}
 
 \begin{abstract}
@@ -297,7 +297,7 @@ mcmcSize=1100, mcmcBurnin=100, mcmcSubsample=1, mcSize=1000, testThreshold=2)
 # get the Bayes factor
 getBF(cephalopodIndOriginResults)
 @
-The above results reproduce the Bayes factors in the $7^{\text{th}}$ row of the SI Table 2. To reproduce the rest of the rows, one can change `priorBeta01', `priorBeta10', and `testThreshold'
+The above results reproduce the Bayes factors in the $7^{\text{th}}$ row of the SI Table 2 of \citep{Pankey2014}. To reproduce the rest of the rows, one can change `priorBeta01', `priorBeta10', and `testThreshold'
 parameters to manipulate the priors and the hypotheses.
 Note that we kept the number of MCMC iterations low, so it is possible to reproduce all of the above examples quickly. You should increase this number when attempting your
 own analyses.
