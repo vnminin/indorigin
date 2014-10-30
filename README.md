@@ -10,9 +10,10 @@ if you don't have `devtools` package installed, execute
 install.packages("devtools") 
 ```
 
-To install the `indoritin` package, run
+To install the `indorigin` package, run
 
 ```
+library(devtools)
 install_github("vnminin/indorigin",build_vignettes=TRUE) 
 ```
 
