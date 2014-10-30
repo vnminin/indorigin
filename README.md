@@ -19,9 +19,10 @@ install_github("vnminin/indorigin",build_vignettes=TRUE)
 
 ### getting started with the package
 
-Open the package vignette with the command
+Load the package and open the package vignette:
 
 ```
+library(indorigin)
 vignette("indorigin_methods")
 ```
 
