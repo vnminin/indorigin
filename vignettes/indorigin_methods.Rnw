@@ -197,8 +197,8 @@ Software implementing the above procedure is available in the form of an open-so
 install \verb8indorigin8 using `install\_github' command:
 
 <<intallation>>=
-## install.packages("devtools") # uncomment if "devtoos" is not installed
-## install_github("vnminin/indorigin") # uncomment or copy and paste into R terminal
+## install.packages("devtools") # uncomment if "devtools" is not installed
+## install_github("vnminin/indorigin",build_vignettes=TRUE) # uncomment or copy and paste into R terminal
 library(indorigin)
 @
 Notice that installing from github requires installing the package from source. To learn about package installation see \url{http://cran.r-project.org/doc/manuals/R-admin.html}.
