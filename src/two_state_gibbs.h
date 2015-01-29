@@ -9,7 +9,7 @@
 #define TWO_STATE_GIBBS_H_
 
 #include <RcppArmadillo.h>
-#include <RcppArmadilloExtensions/sample.h>
+//#include <RcppArmadilloExtensions/sample.h>
 
 using namespace Rcpp;
 

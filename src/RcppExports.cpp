@@ -6,30 +6,6 @@
 
 using namespace Rcpp;
 
-// AverageTreesConvolve
-arma::mat AverageTreesConvolve(IntegerVector r_edge_cube, IntegerVector cubeDims, arma::mat arma_branch_lengths, arma::imat arma_tip_states, double rate_0_to_1, double rate_1_to_0, int n_max, double root_p_0, std::string dist_type, int gains);
-RcppExport SEXP indorigin_AverageTreesConvolve(SEXP r_edge_cubeSEXP, SEXP cubeDimsSEXP, SEXP arma_branch_lengthsSEXP, SEXP arma_tip_statesSEXP, SEXP rate_0_to_1SEXP, SEXP rate_1_to_0SEXP, SEXP n_maxSEXP, SEXP root_p_0SEXP, SEXP dist_typeSEXP, SEXP gainsSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< IntegerVector >::type r_edge_cube(r_edge_cubeSEXP );
-        Rcpp::traits::input_parameter< IntegerVector >::type cubeDims(cubeDimsSEXP );
-        Rcpp::traits::input_parameter< arma::mat >::type arma_branch_lengths(arma_branch_lengthsSEXP );
-        Rcpp::traits::input_parameter< arma::imat >::type arma_tip_states(arma_tip_statesSEXP );
-        Rcpp::traits::input_parameter< double >::type rate_0_to_1(rate_0_to_1SEXP );
-        Rcpp::traits::input_parameter< double >::type rate_1_to_0(rate_1_to_0SEXP );
-        Rcpp::traits::input_parameter< int >::type n_max(n_maxSEXP );
-        Rcpp::traits::input_parameter< double >::type root_p_0(root_p_0SEXP );
-        Rcpp::traits::input_parameter< std::string >::type dist_type(dist_typeSEXP );
-        Rcpp::traits::input_parameter< int >::type gains(gainsSEXP );
-        arma::mat __result = AverageTreesConvolve(r_edge_cube, cubeDims, arma_branch_lengths, arma_tip_states, rate_0_to_1, rate_1_to_0, n_max, root_p_0, dist_type, gains);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
 // twoStateSufficientStatistics
 NumericVector twoStateSufficientStatistics(arma::Mat<int>& treeEdges, IntegerVector& tipStates, NumericVector& branchLengths, double lambda_01, double lambda_10, NumericVector& rootDist);
 RcppExport SEXP indorigin_twoStateSufficientStatistics(SEXP treeEdgesSEXP, SEXP tipStatesSEXP, SEXP branchLengthsSEXP, SEXP lambda_01SEXP, SEXP lambda_10SEXP, SEXP rootDistSEXP) {
