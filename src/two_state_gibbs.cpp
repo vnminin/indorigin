@@ -209,6 +209,7 @@ double TwoStatePhyloLikelihood(arma::Mat<int>& treeEdges, IntegerVector& tipStat
   return sum(partLike.row(numTips).t()%armaRootDist);
 }
 
+// [[Rcpp::export]]
 double TwoStatePhyloLikelihood(const arma::Mat<int> & treeEdges, const IntegerVector & tipStates,
                                const arma::vec & branchLengths, const double & lambda_01,
                                const double & lambda_10, const arma::vec & armaRootDist)

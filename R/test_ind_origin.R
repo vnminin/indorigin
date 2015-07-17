@@ -1,4 +1,4 @@
-testIndOrigin = function(inputTrees, rootDist=c(0,1), traitData, initLambda01, initLambda10, priorAlpha01, priorBeta01, priorAlpha10, priorBeta10, mcmcSize, mcmcBurnin, mcmcSubsample, mcSize, testThreshold=0){
+testIndOrigin <- function(inputTrees, rootDist=c(0,1), traitData, initLambda01, initLambda10, priorAlpha01, priorBeta01, priorAlpha10, priorBeta10, mcmcSize, mcmcBurnin, mcmcSubsample, mcSize, testThreshold=0){
   
   
   ## Prepare trees and trait data  for Rcpp code
@@ -62,7 +62,7 @@ did not match: the former were ignored in the analysis.')
   postProbs = numeric(dim(mcmcOut)[1])
   
   for (i in 1:length(postProbs)){
-    postProbs[i] = sum(exp(treeConvolveTest(inputTrees[[mcmcOut[i,"treeIndex"]]], treeTraits[,mcmcOut[i,"treeIndex"]], mcmcOut[i,"lambda01"], mcmcOut[i,"lambda10"], 0, testThreshold)[,"posterior"]))
+    postProbs[i] = sum(exp(treeConvolveTest(inputTrees[[mcmcOut[i,"treeIndex"]]], treeTraits[,mcmcOut[i,"treeIndex"]], mcmcOut[i,"lambda01"], mcmcOut[i,"lambda10"], rootDist[1], testThreshold)[,"posterior"]))
   }
   
   postProbEst = mean(postProbs)
@@ -78,7 +78,7 @@ did not match: the former were ignored in the analysis.')
   
   for (i in 1:mcSize){
     sampledTreeIndex = sample(c(1:treeNum),1)
-    priorProbs[i] = sum(exp(treeConvolveTest(inputTrees[[sampledTreeIndex]], treeTraits[,sampledTreeIndex], priorSampleLambda01[i], priorSampleLambda10[i], 0, testThreshold)[,"prior"]))
+    priorProbs[i] = sum(exp(treeConvolveTest(inputTrees[[sampledTreeIndex]], treeTraits[,sampledTreeIndex], priorSampleLambda01[i], priorSampleLambda10[i], rootDist[1], testThreshold)[,"prior"]))
   }
   
   priorProbEst = mean(priorProbs)
