@@ -7,7 +7,7 @@ two.state.trans.prob = function(forward.rate, backward.rate, elapsed.time){
 }
 
 
-inRTwoStatePartLikehoods = function(my.tree, my.data, forward.rate, backward.rate){
+inRTwoStatePartLikehoods = function(my.tree, my.data, forward.rate, backward.rate, root_dist){
   
   ## reorder the edges in the "pruningwise" order
   my.tree = reorder(my.tree, order = "pr")
@@ -28,12 +28,5 @@ did not match: the former were ignored in the analysis.')
     }
   }
   
-  ## prepare transition probability matrices (this of course can and should be done in C++ as well)
-  ## prob.array = array(0, dim=c(2,2,length(my.tree$edge.length)))            
-  
-  ## for (i in 1:length(my.tree$edge.length)){
-  ##  prob.array[,,i] = two.state.trans.prob(forward.rate, backward.rate, my.tree$edge.length[i])          
-  ## }            
-  
-  return(twoStateSufficientStatistics(my.tree$edge, my.data, my.tree$edge.length, forward.rate, backward.rate))
+  return(TwoStatePhyloLikelihood(my.tree$edge, my.data, my.tree$edge.length, forward.rate, backward.rate, root_dist))
 }
