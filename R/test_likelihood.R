@@ -7,7 +7,7 @@ two.state.trans.prob = function(forward.rate, backward.rate, elapsed.time){
 }
 
 
-inRTwoStateLikehood = function(my.tree, my.data, forward.rate, backward.rate, root_dist){
+inRTwoStatePhyloLikehood = function(my.tree, my.data, forward.rate, backward.rate, root_dist){
   
   ## reorder the edges in the "pruningwise" order
   my.tree = reorder(my.tree, order = "pr")
