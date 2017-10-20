@@ -7,8 +7,14 @@ Author: Vladimir N. Minin, Greg C. Imholte, Marc A. Suchard
 Maintainer: Vladimir N. Minin <vminin@uw.edu>
 Description: To fill later
 License: GPL-3
-Depends: Rcpp (>= 0.10.5), RcppArmadillo (>= 0.3.920.1), testthat
-Suggests: knitr
-Imports: coda (>= 0.16.1)
+Depends:
+    Rcpp (>= 0.10.5),
+    RcppArmadillo (>= 0.3.920.1),
+    testthat
+Suggests:
+    knitr
+Imports:
+    coda (>= 0.16.1)
 LinkingTo: Rcpp, RcppArmadillo
 VignetteBuilder: knitr
+RoxygenNote: 6.0.1

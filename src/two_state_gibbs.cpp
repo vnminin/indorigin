@@ -279,7 +279,7 @@ NumericVector twoStateSufficientStatistics(arma::Mat<int>& treeEdges, IntegerVec
      int childNode1 = treeEdges(i,1);
      int childNode2 = treeEdges(i-1,1);
      
-     // Sample childred nodes of the parent
+     // Sample children nodes of the parent
      nodeStates[childNode1-1] = sampleOnce((partLike.row(childNode1-1)%cubeProbMat.slice(i).row(nodeStates[parentNode-1])).t(), as<double>(runif(1)));
      nodeStates[childNode2-1] = sampleOnce((partLike.row(childNode2-1)%cubeProbMat.slice(i-1).row(nodeStates[parentNode-1])).t(), as<double>(runif(1)));
 

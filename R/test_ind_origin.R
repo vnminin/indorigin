@@ -1,11 +1,40 @@
+#' Test of independent origin hypothesis for a phylogenetic model with a binary trait.
+#'
+#' Runs a Gibbs sampler for a two-state CMTC 
+#' on a set of phylogenetic trees, with data 
+#' at the tips of the trees. Uses MCMC output to 
+#' compute Bayes factor of the hypothesis N_{0->1} <= k
+#' 
+#' @param inputTrees \code{multiPhylo} object containing a list of trees.
+#' @param rootDist Numeric vector of size two with probabilities of the 
+#' two states at the root of the tree.
+#' @param traitData Vector of trait values, coded as 0 and 1.
+#' @param initLambda01 Initial value of the 0 -> 1 rate.
+#' @param initLambda10 Initial value of the 1 -> 0 rate.
+#' @param priorAlpha01 Shape parameter of the Gamma prior on the 0 -> 1 rate.
+#' @param priorBeta01 Rate parameter of the Gamma prior on the 0 -> 1 rate.
+#' @param priorAlpha10 Shape parameter of the Gamma prior on the 1 -> 0 rate.
+#' @param priorBeta10 Rate parameter of the Gamma prior on the 0 -> 1 rate.
+#' @param mcmcSize Total number of MCMC iterations. 
+#' @param mcmcBurnin Number of initial iterations to ignore.
+#' @param mcmcSubsample Integer controlling how many MCMC iterations to save. 
+#' For example, \code{mcmcSubsample = 10} saves every tenth iteration after ignoreing the first \code{mcmcBurnin} iterations.
+#' @param testThreshold Threshold k in the independent origin hypotheseis N_{0->1} <= k
+#'
+#' @return List with two elements: the input trees and a matrix of MCMC output.
+#' The columns of MCMC output matrix are Iteration number, Index of a tree 
+#' that was sampled at this iteration, Log posterior, 
+#' 0 -> 1 rate, 1 -> 0 rate, Number of 0 -> 1 jumps, Number of 1 -> 0 jumps,
+#' Time spent in state 0, Time spent in state 1
+
 testIndOrigin <- function(inputTrees, rootDist=c(0,1), traitData, initLambda01, initLambda10, priorAlpha01, priorBeta01, priorAlpha10, priorBeta10, mcmcSize, mcmcBurnin, mcmcSubsample, mcSize, testThreshold=0){
   
   
   ## Prepare trees and trait data  for Rcpp code
   cat("pre-processing trees and trait data", "\n")
   
-  if (prod(traitData == 0 | traitData == 1) != 1)
-    stop("Error: \"traitData\" must be a binary vector with entries equal to 0 or 1")
+  if (prod(traitData == 0 | traitData == 1 | traitData == -1) != 1)
+    stop("Error: \"traitData\" must be a vector with entries equal to 0 or 1 or -1")
   if (!("multiPhylo" %in% class(inputTrees)))
     stop("Error: object \"inputTrees\" is not of class \"multiPhylo\"")
   
@@ -141,7 +170,7 @@ plotPosterior = function(indOriginResults, trace=FALSE){
   if (!("indorigin" %in% class(indOriginResults)))
     stop("Error: object \"indOriginResults\" is not of class \"indorigin\"")
   
-mcmcTable = coda::mcmc(indOriginResults$mcmcOutput[,c("lambda01", "lambda10", "n01", "n10")], thin=as.integer(dim(indOriginResults$mcmcOutput)[1]/5000))
+mcmcTable = coda::mcmc(indOriginResults$mcmcOutput[,c("lambda01", "lambda10", "n01", "n10")], thin=as.integer(dim(indOriginResults$mcmcOutput)[1]))
 plot(mcmcTable, trace=trace)
 
 }
